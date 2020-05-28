@@ -1,24 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
+import {Layout} from 'antd';
 import './App.css';
+import Contacts from './Component/Contacts';
+
+const {Header, Footer, Content} = Layout;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Layout>
+        <Header>
+          <h1>Hello I am Yasin</h1>
+        </Header>
+        <Content>
+          <Contacts />
+        </Content>
+        <Footer>
+          <h2>I am Footer</h2>
+        </Footer>
+      </Layout>
     </div>
   );
 }
