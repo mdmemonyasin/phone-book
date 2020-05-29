@@ -49,7 +49,7 @@ const UsersDataComponent = ({ usersData }) => {
             usersData.map((user) => (
               <Panel header={user.name} key={user.id}>
                 <Row gutter={[16, 16]}>
-                  <Col span={12}>{user.dob}</Col>
+                  <Col span={12}>{user.dob ? user.dob.split('T')[0] : ''}</Col>
                   <Col span={12}>
                     <Button
                       type='primary'
