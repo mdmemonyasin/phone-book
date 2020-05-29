@@ -20,11 +20,10 @@ const UsersDataComponent = ({ usersData }) => {
   const handleDelete = async (id) => {
     try {
       setLoading(true);
-      const responce = await Axios.delete('http://localhost:8000/removeContact/?id='+id);
-      console.log(responce);
+      const responce = await Axios.delete('https://phone-book-api-v1.herokuapp.com/removeContact/?id='+id);
       if(responce){
-        notification.message({
-          message: "Contact Successfully Deleted"
+        notification.success({
+          message: responce.data.message
         })
       }
     } catch (err) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, Modal, notification } from 'antd';
+import { Form, Input, Button, Modal, notification, DatePicker } from 'antd';
 import axios from 'axios';
 
 const AddContactModal = ({ visible, onCancel, purpose, id }) => {
@@ -9,10 +9,9 @@ const AddContactModal = ({ visible, onCancel, purpose, id }) => {
   const getUserData = async () => {
     try {
       setLoading(true);
-      const responce = await axios.get('http://localhost:8000/getById/?id=' + id);
+      const responce = await axios.get('https://phone-book-api-v1.herokuapp.com/getById/?id=' + id);
       if (responce) {
         setUserData(responce.data.contacts);
-        console.log(userData);
       }
     } catch (err) {
       notification.error({
@@ -25,19 +24,18 @@ const AddContactModal = ({ visible, onCancel, purpose, id }) => {
 
   const handelSubmit = async (values) => {
     if (purpose === 'edit') {
-      console.log(values);
       values.userData = userData;
       console.log('for edit purpose');
       try {
         setLoading(true);
-        const responce = await axios.put('http://localhost:8000/editContact', values);
+        const responce = await axios.put('https://phone-book-api-v1.herokuapp.com/editContact', values);
         if (responce) {
-          notification.message({
-            message: "Edit Successful"
+          notification.success({
+            message: responce.data.message
           })
         }
       } catch (err) {
-        notification.err({
+        notification.error({
           message: "Something Went Wrong"
         })
       } finally {
@@ -51,20 +49,20 @@ const AddContactModal = ({ visible, onCancel, purpose, id }) => {
       console.log('for add purpose');
       try {
         setLoading(true);
-        const responce = await axios.post('http://localhost:8000/addContact', values);
-        console.log(responce);
-        if (responce) {
-          notification.message({
+        const responce = await axios.post('https://phone-book-api-v1.herokuapp.com/addContact', values);
+        console.log(responce.data);
+          notification.success({
             message: responce.data.message
           })
-        }
       } catch (err) {
+        console.log(err);
         notification.error({
-          message: "Something went wrong"
+          message: "Number is already present"
         })
       } finally {
         setLoading(false);
         visible = false;
+        window.location.reload();
       }
     }
   };
@@ -77,23 +75,23 @@ const AddContactModal = ({ visible, onCancel, purpose, id }) => {
 
   const layout = {
     labelCol: {
-      span: 2,
+      span: 5,
     },
     wrapperCol: {
       span: 20,
     },
   };
 
-  // const validateMessages = {
-  //   required: '${label} is required!',
-  //   types: {
-  //     email: '${label} is not validate email!',
-  //     number: '${label} is not a validate number!',
-  //   },
-  //   number: {
-  //     range: '${label} must be between ${min} and ${max}',
-  //   },
-  // };
+  const validateMessages = {
+    required: '${label} is required!',
+    types: {
+      email: '${label} is not validate email!',
+      number: '${label} is not a validate number!',
+    },
+    number: {
+      range: '${label} must be between ${min} and ${max}',
+    },
+  };
 
   return (
     <React.Fragment>
@@ -104,17 +102,17 @@ const AddContactModal = ({ visible, onCancel, purpose, id }) => {
           onCancel={onCancel}
           footer={null}
         >
-          <Form name='Add Contact Form' {...layout} onFinish={handelSubmit}>
-            <Form.Item name='name' label='Name'>
+          <Form name='Add Contact Form' {...layout} onFinish={handelSubmit} validateMessages={validateMessages}>
+            <Form.Item name='name' label='Name' rules={[{required: true}]}>
               <Input />
             </Form.Item>
             <Form.Item name='dob' label='DOB'>
+              <DatePicker />
+            </Form.Item>
+            <Form.Item name='number' label='Number' rules={[{required: true},{types: 'number', min:10, max:10}]}>
               <Input />
             </Form.Item>
-            <Form.Item name='number' label='Num'>
-              <Input />
-            </Form.Item>
-            <Form.Item name='email' label='Email'>
+            <Form.Item name='email' label='Email' rules={[{required: true}, {types: 'email'}]}>
               <Input />
             </Form.Item>
             <Form.Item>
@@ -136,7 +134,7 @@ const AddContactModal = ({ visible, onCancel, purpose, id }) => {
                 <Input value={userData.name} />
               </Form.Item>
               <Form.Item name='dob' label='DOB'>
-                <Input value={userData.dob}/>
+              <DatePicker value={userData.dob}/>
               </Form.Item>
               <Form.Item name='number' label='Num'>
                 <Input value={userData.number}/>

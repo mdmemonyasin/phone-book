@@ -24,7 +24,7 @@ class SearchComponent extends React.Component {
     this.lastFetchId += 1;
     const fetchId = this.lastFetchId;
     this.setState({ data: [], fetching: true });
-    fetch('http://localhost:8000/getFilter/?'+this.state.key+"="+value)
+    fetch('https://phone-book-api-v1.herokuapp.com/getFilter/?'+this.state.key+"="+value)
       .then((response) => response.json())
       .then((body) => {
         if (fetchId !== this.lastFetchId) {

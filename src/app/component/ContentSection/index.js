@@ -10,11 +10,10 @@ const ContentSection = () => {
   const [usersData, setUsersData] = useState([]);
   const [usedId, setUserId] = useState(undefined);
 
-  // here while fetching the users pass the userid as parameter to get data of particular user
   const getUsers = async (page=1) => {
     try {
       setLoading(true);
-      const responce = await axios.get("http://localhost:8000/getContacts/?page="+page);
+      const responce = await axios.get("https://phone-book-api-v1.herokuapp.com/getContacts/?page="+page);
       if (responce) {
         console.log(responce.data.contacts);
         setUsersData(responce.data.contacts);
@@ -34,7 +33,6 @@ const ContentSection = () => {
     getUsers();
   }, [usedId]);
 
-  // in search component the user who will be selected we will store its userid in then fetch data for that particular user
   return (
     <div className={styles.contentWrapper}>
       <SearchComponent setUserId={setUserId} />
