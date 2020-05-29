@@ -12,6 +12,9 @@
     "react-scripts": "3.4.1",
     "sass": "^1.26.5"
   },
+  "engines": {
+    "node": "10.18.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
