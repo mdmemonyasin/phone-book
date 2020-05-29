@@ -1,0 +1,13 @@
+.footerWrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .addUserIcon {
+    position: absolute;
+    right: 0;
+    font-size: 38px;
+    align-self: flex-end;
+    cursor: pointer;
+  }
+}
