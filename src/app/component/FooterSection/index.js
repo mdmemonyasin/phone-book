@@ -19,7 +19,6 @@ const FooterSection = () => {
 
   return (
     <div className={styles.footerWrapper}>
-      <Pagination size='small' total={50}/>
       <UserAddOutlined className={styles.addUserIcon} onClick={openModal} />
       <AddContactModal
         visible={modalVisible}

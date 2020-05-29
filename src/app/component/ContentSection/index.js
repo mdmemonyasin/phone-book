@@ -3,7 +3,7 @@ import SearchComponent from '../SearchComponent';
 import UsersDataComponent from '../UsersDataComponent';
 import styles from './index.module.scss';
 import axios from 'axios';
-import {notification} from 'antd';
+import {notification,Pagination} from 'antd';
 
 const ContentSection = () => {
   const [loading, setLoading] = useState(false);
@@ -26,6 +26,10 @@ const ContentSection = () => {
     }
   };
 
+  const handelChange = (page) =>{
+    getUsers(page);
+  }
+
   useEffect(() => {
     getUsers();
   }, [usedId]);
@@ -35,6 +39,7 @@ const ContentSection = () => {
     <div className={styles.contentWrapper}>
       <SearchComponent setUserId={setUserId} />
       <UsersDataComponent usersData={usersData} />
+      <Pagination size='small' total={50} onChange={handelChange}/>
     </div>
   );
 };
